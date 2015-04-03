@@ -85,6 +85,7 @@ public class CrimeListFragment extends ListFragment
 
                 }
 
+                @TargetApi(11)
                 @Override
                 public boolean onCreateActionMode(ActionMode mode, Menu menu)
                 {
