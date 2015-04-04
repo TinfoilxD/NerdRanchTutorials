@@ -99,11 +99,30 @@ public class CrimeListFragment extends ListFragment
                     return false;
                 }
 
+                @TargetApi(11)
                 @Override
                 public boolean onActionItemClicked(ActionMode mode, MenuItem item)
                 {
+                    switch(item.getItemId())
+                    {
+                        case R.id.menu_item_delete_crime:
+                            CrimeAdapter adapter = (CrimeAdapter)getListAdapter();
+                            CrimeLab crimeLab = CrimeLab.get(getActivity());
+                            for(int i = 0; i < adapter.getCount(); i++)
+                            {
+                                //only ListView contains the checked properly. Adapter only has the mCrimes ArrayList.
+                                if(getListView().isItemChecked(i))
+                                {
+                                    crimeLab.deleteCrime(adapter.getItem(i));
+                                }
+                            }
+                            mode.finish();
+                            adapter.notifyDataSetChanged();
+                            return true;
+                        default:
+                            return false;
+                    }
 
-                    return false;
                 }
 
                 @Override

@@ -20,6 +20,7 @@ public abstract class SingleFragmentActivity extends ActionBarActivity
         if(crimeFragment == null)
         {
             crimeFragment = createFragment();
+            //transaction object implements fluent interface; all methods are called from anonymous transaction object
             manager.beginTransaction().add(R.id.fragmentContainer,crimeFragment).commit();
 
         }
