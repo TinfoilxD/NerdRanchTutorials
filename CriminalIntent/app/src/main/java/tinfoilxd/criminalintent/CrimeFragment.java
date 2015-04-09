@@ -26,6 +26,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.util.Date;
 import java.util.UUID;
@@ -46,6 +47,7 @@ public class CrimeFragment extends Fragment
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
     private ImageButton mPhotoButton;
+    private ImageView mPhotoView;
 
     public static CrimeFragment newInstance(UUID crimeId)
     {
@@ -156,6 +158,9 @@ public class CrimeFragment extends Fragment
                 && Camera.getNumberOfCameras() > 0;
         if(!hasCamera)
             mPhotoButton.setEnabled(false);
+
+        //setting up photo image
+        mPhotoView = (ImageView)v.findViewById(R.id.crime_imageView);
         //returns the fragment view for the activity to add
         return v;
     }
@@ -190,7 +195,9 @@ public class CrimeFragment extends Fragment
             String filename = data.getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
             if(filename != null)
             {
-                Log.i(TAG, "filename: " + filename);
+                Photo p = new Photo(filename);
+                mCrime.setPhoto(p);
+                Log.i(TAG, "Crime: " + mCrime.getTitle() + "has a photo");
             }
         }
     }
