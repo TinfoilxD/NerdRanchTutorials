@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
@@ -165,6 +166,33 @@ public class CrimeFragment extends Fragment
         return v;
     }
 
+    private void showPhoto()
+    {
+        //Set or Reset the image button's image based on photo
+        Photo p = mCrime.getPhoto();
+        BitmapDrawable b = null;
+        if(p != null)
+        {
+            String path = getActivity().getFileStreamPath(p.getFilename()).getAbsolutePath();
+            b = PictureUtils.getScaledDrawable(getActivity(),path);
+        }
+        mPhotoView.setImageDrawable(b);
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        showPhoto();
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        PictureUtils.cleanImageView(mPhotoView);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -197,7 +225,7 @@ public class CrimeFragment extends Fragment
             {
                 Photo p = new Photo(filename);
                 mCrime.setPhoto(p);
-                Log.i(TAG, "Crime: " + mCrime.getTitle() + "has a photo");
+                showPhoto();
             }
         }
     }
