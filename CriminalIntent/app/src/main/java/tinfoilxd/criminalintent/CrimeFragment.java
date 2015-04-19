@@ -39,6 +39,7 @@ public class CrimeFragment extends Fragment
     private static final String TAG = "CrimeFragment";
     public static final String EXTRA_CRIME_ID = "tinfoilxd.criminalintent.crime_id";
     public static final String DIALOG_DATE = "date";
+    public static final String DIALOG_IMAGE = "image";
 
     public static final int REQUEST_DATE = 0;
     public static final int REQUEST_PHOTO = 1;
@@ -162,6 +163,19 @@ public class CrimeFragment extends Fragment
 
         //setting up photo image
         mPhotoView = (ImageView)v.findViewById(R.id.crime_imageView);
+        mPhotoView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Photo p = mCrime.getPhoto();
+                if(p == null)
+                    return;
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                String path = getActivity().getFileStreamPath(p.getFilename()).getAbsolutePath();
+                ImageFragment.newInstance(path).show(fm, DIALOG_IMAGE);
+            }
+        });
         //returns the fragment view for the activity to add
         return v;
     }
